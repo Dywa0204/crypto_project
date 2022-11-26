@@ -1,0 +1,20 @@
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+mat-card{
+    width: 40%;
+    margin: auto;
+    margin-top: 64px;
+    padding: 32px;
+}
+
+a{
+    color: #6781d4;
+    text-decoration: none;
+}

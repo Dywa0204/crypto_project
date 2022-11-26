@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "kriptografi-123200041": {
+      "hosting": {
+        "crypto": [
+          "kriptografi-123200041"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "kriptografi-123200041"
+  }
+}

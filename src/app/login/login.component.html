@@ -1,0 +1,25 @@
+<mat-card>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <h1>LOGIN</h1>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" required>
+            <mat-error *ngIf="userForm.controls['username'].errors">This field cannot be empty</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" required>
+            <mat-error *ngIf="userForm.controls['password'].errors">This field cannot be empty</mat-error>
+        </mat-form-field>
+
+        <span>Belum punya akun? 
+            <a routerLink="/register">
+                Daftar Sekarang
+            </a>
+        </span>
+
+        <button mat-flat-button color="primary" type="submit">LOGIN</button>
+    </form>
+</mat-card>

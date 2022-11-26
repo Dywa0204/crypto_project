@@ -1,0 +1,40 @@
+<br><br>
+<h1>SELAMAT DATANG {{ userName | uppercase }}</h1>
+<h2>Silahkan Tentukan Pilihanmu</h2>
+<div class="candidate-list">
+    <mat-card *ngFor="let candidate of candidates; let i = index" class="list">
+        <div class="candidate" (click)="selectCandidate(i)">
+            <div class="profile">
+                <div class="one">
+                    <div class="image">
+                        <img [src]="candidate.img1" alt="">
+                    </div>
+                    <h4>{{ candidate.name1 }}</h4>
+                </div>
+                <div class="two">
+                    <div class="image">
+                        <img [src]="candidate.img2" alt="">
+                    </div>
+                    <h4>{{ candidate.name2 }}</h4>
+                </div>
+            </div>
+            <div class="visimisi">
+                <b>Visi :</b><br>
+                {{ candidate.visi }} <br>
+                <b>Misi :</b><br>
+                {{ candidate.misi }} <br>
+            </div>
+            <div class="no_urut">
+                {{ candidate.no }}
+            </div>
+        </div>
+    </mat-card>
+    
+</div>
+<mat-card class="action">
+    <h2>{{ choosed }}</h2>
+    <div class="buttons">
+        <a mat-flat-button color="primary" [disabled]="btnDisable" routerLink="/savedata" [queryParams]="{u: selectedNo}">PILIH</a>
+        <button mat-flat-button color="accent" [disabled]="btnDisable" (click)="batal()">BATAL</button>
+    </div>
+</mat-card>

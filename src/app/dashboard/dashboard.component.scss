@@ -2,8 +2,13 @@
     color: white;
 }
 
-h1, h2, h4{
+h1, h2, h3{
     text-align: center;
+}
+
+h3{
+    font-size: 1.2em;
+    margin-top: 6px;
 }
 
 .image{
@@ -21,8 +26,9 @@ img{
 }
 
 .profile{
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
 }
 
 .candidate-list{
@@ -68,3 +74,58 @@ img{
     grid-template-columns: repeat(2, 1fr);
 }
 
+.visimisi{
+    background-color: white;
+    color: black;
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
+
+.visimisi b{
+    color: black;
+}
+
+.logout{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.coosed{
+    margin: 32px 128px;
+    padding: 32px;
+    gap: 12px;
+}
+
+.image_upload{
+    border: 1px solid white;
+    border-radius: 8px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+}
+
+.image_upload img{
+    max-height: 256px;
+    width: fit-content;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    margin: 16px 32px;
+    gap: 12px;
+}
+
+mat-card h1, .generated_text{
+    background-color: white;
+    color: black;
+    text-align: center;
+    font-weight: bold;
+    padding: 16px;
+    border-radius: 8px;
+    word-wrap: break-word; 
+}

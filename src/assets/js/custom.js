@@ -1,15 +1,21 @@
 let imagedatauri;
+let imagedatauri2;
 
-function readImageURL(input){
+function readImageURL(event){
     var reader = new FileReader();
     reader.onload = function(e) {
         imagedatauri = e.target?.result;
-        console.log(e.target?.result);
     }
     
-    reader.readAsDataURL(input.target.files[0])
+    reader.readAsDataURL(event.target.files[0])
 }
 
-function encodeIMG(){
-    return steg.encode("hahaha", imagedatauri)
+function encodeIMG(message){
+    console.log(imagedatauri)
+    return steg.encode(message, imagedatauri)
+}
+
+function decodeIMG(){
+    console.log(imagedatauri)
+    return steg.decode(imagedatauri)
 }

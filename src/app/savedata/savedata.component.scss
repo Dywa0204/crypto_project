@@ -1,0 +1,61 @@
+mat-card{
+    margin: 32px 256px;
+    padding: 32px;
+}
+
+.file{
+    display: none;
+}
+
+*:not(label) {
+    color: white;
+}
+
+h1, .generated_text{
+    background-color: white;
+    color: black;
+    text-align: center;
+    font-weight: bold;
+    padding: 16px;
+    border-radius: 8px;
+    word-wrap: break-word; 
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    margin: 16px 32px;
+    gap: 12px;
+}
+
+.submited{
+    display: flex;
+    flex-direction: column;
+    margin: 16px 32px;
+    gap: 12px;
+    background-color: #ffffff2a;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+h2{
+    text-align: center;
+}
+
+label{
+    margin-bottom: 6px;
+}
+
+.image_upload{
+    border: 1px solid white;
+    border-radius: 8px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+}
+
+.image_upload img{
+    max-height: 256px;
+}

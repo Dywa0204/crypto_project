@@ -1,26 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../service/auth/auth.service';
+import { Router } from '@angular/router';
 
 import Swal from 'sweetalert2'
+import { CryptoService } from '../service/crypto/crypto.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  providers: [AuthService]
+  providers: [CryptoService]
 })
-export class LoginComponent {
-  constructor(private authService: AuthService){}
+export class LoginComponent implements OnInit{
+  constructor(private cryptoService: CryptoService, private router: Router){}
 
   userForm = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required)
   })
 
+  ngOnInit(): void {
+    if(localStorage.getItem("username")){
+      this.router.navigate(["/dashboard"])
+    }
+  }
+
   onSubmit(){
     if(this.userForm.valid){
-      this.authService.loginUser(this.userForm.value)
+      this.cryptoService.loginUser(this.userForm.value)
     }else{
       Swal.fire({
         icon: 'error',

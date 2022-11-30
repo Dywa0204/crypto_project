@@ -1,16 +1,110 @@
 import { Injectable } from '@angular/core';
+import { child, Database, get, getDatabase, onValue, update } from '@angular/fire/database';
+import { ref, set } from '@firebase/database';
+import { Router } from '@angular/router';
+
+import Swal from 'sweetalert2'
+
+import * as bcrypt from 'bcryptjs';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CryptoService {
 
-  constructor() { }
+  constructor(private database: Database, private router: Router) { }
 
   alpabeth = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   number = "0123456789";
 
-  vigenere_cipher(type: string, text: string, key: string){
+  registerUser(value: any){
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(value.password, salt)
+
+    set(ref(this.database, 'user/' + value.username), {
+      username: value.username,
+      password: hash,
+      fullname: value.fullname,
+      isChoosed: false
+    }).then(() => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'User Teregistrasi, Silahkan Login'
+      })
+      this.router.navigate([""])
+    }).catch(() => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ada error mas'
+      })
+    })
+  }
+
+  loginUser(value: any){
+    let tempPassword;
+    const userRef = ref(getDatabase());
+    get(child(userRef, "user/" + value.username)).then(snapshot => {
+        const data = snapshot.val();
+
+      tempPassword = bcrypt.compareSync(value.password, data.password);
+      if(tempPassword){
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Login Berhasil'
+        })
+        this.router.navigate(["/dashboard"])
+        localStorage.setItem("username", value.username)
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Login Gagal'
+        })
+      }
+    })
+  }
+
+  super(type: string, text: string, key: any){
+    let plaintext = "", ciphertext = "";
+
+    switch(type){
+        case "encrypt":
+            plaintext = text;
+            ciphertext = this.vigenereCipher(type, text, key).ciphertext
+            ciphertext = this.AES(type, ciphertext, key).ciphertext
+            break;
+        case "decrypt":
+            ciphertext = text;
+            plaintext = this.AES(type, text, key).plaintext
+            plaintext = this.vigenereCipher(type, plaintext, key).plaintext
+            break;
+    }
+
+    return {plaintext, ciphertext}
+  }
+
+  AES(type: string, text: string, key: any){
+    let plaintext = "", ciphertext = "";
+
+    switch(type){
+        case "encrypt":
+            plaintext = text;
+            ciphertext = CryptoJS.AES.encrypt(text, key).toString();
+            break;
+        case "decrypt":
+            ciphertext = text;
+            plaintext = CryptoJS.AES.decrypt(text, key).toString(CryptoJS.enc.Utf8);
+            break;
+    }
+
+    return {plaintext, ciphertext}
+  }
+
+  vigenereCipher(type: string, text: string, key: any){
     let plaintext = "", ciphertext = "";
 
     switch(type){
@@ -73,5 +167,12 @@ export class CryptoService {
 
   getCharacter(){
     return this.alpabeth + this.alpabeth.toLowerCase() + this.number;
+  }
+
+  updateChoosed(){
+    const username = localStorage.getItem("username")
+    update(ref(this.database, 'user/' + username), {
+        isChoosed: true
+    })
   }
 }

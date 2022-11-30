@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../service/auth/auth.service';
+import { Router } from '@angular/router';
 
 import Swal from 'sweetalert2'
+import { CryptoService } from '../service/crypto/crypto.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  providers: [AuthService]
+  providers: [CryptoService]
 })
-export class RegisterComponent {
-  constructor(private authService: AuthService){}
+export class RegisterComponent implements OnInit{
+  constructor(private cryptoService: CryptoService, private router: Router){}
 
   userForm = new FormGroup({
     fullname: new FormControl('', Validators.required),
@@ -19,9 +20,15 @@ export class RegisterComponent {
     password: new FormControl('', Validators.required)
   })
 
+  ngOnInit(): void {
+    if(localStorage.getItem("username")){
+      this.router.navigate(["/dashboard"])
+    }
+  }
+
   onSubmit(){
     if(this.userForm.valid){
-      this.authService.registerUser(this.userForm.value)
+      this.cryptoService.registerUser(this.userForm.value)
     }else{
       Swal.fire({
         icon: 'error',

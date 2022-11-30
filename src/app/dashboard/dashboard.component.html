@@ -1,40 +1,78 @@
 <br><br>
 <h1>SELAMAT DATANG {{ userName | uppercase }}</h1>
-<h2>Silahkan Tentukan Pilihanmu</h2>
-<div class="candidate-list">
-    <mat-card *ngFor="let candidate of candidates; let i = index" class="list">
-        <div class="candidate" (click)="selectCandidate(i)">
-            <div class="profile">
-                <div class="one">
-                    <div class="image">
-                        <img [src]="candidate.img1" alt="">
+<div *ngIf="!isChoosed">
+    <h2>Silahkan Tentukan Pilihanmu</h2>
+    <div class="candidate-list">
+        <mat-card *ngFor="let candidate of candidates; let i = index" class="list">
+            <div class="candidate" (click)="selectCandidate(i)">
+                <div class="profile">
+                    <div class="one">
+                        <div class="image">
+                            <img [src]="candidate.img1" alt="">
+                        </div>
+                        <h3>{{ candidate.name1 }}</h3>
                     </div>
-                    <h4>{{ candidate.name1 }}</h4>
-                </div>
-                <div class="two">
-                    <div class="image">
-                        <img [src]="candidate.img2" alt="">
+                    <div class="two">
+                        <div class="image">
+                            <img [src]="candidate.img2" alt="">
+                        </div>
+                        <h3>{{ candidate.name2 }}</h3>
                     </div>
-                    <h4>{{ candidate.name2 }}</h4>
+                </div>
+                <div class="visimisi">
+                    <b>Visi :</b><br>
+                    {{ candidate.visi }} <br><br>
+                    <b>Misi :</b><br>
+                    {{ candidate.misi }} <br>
+                </div>
+                <div class="no_urut">
+                    {{ candidate.no }}
                 </div>
             </div>
-            <div class="visimisi">
-                <b>Visi :</b><br>
-                {{ candidate.visi }} <br>
-                <b>Misi :</b><br>
-                {{ candidate.misi }} <br>
-            </div>
-            <div class="no_urut">
-                {{ candidate.no }}
-            </div>
+        </mat-card>
+        
+    </div>
+    <mat-card class="action">
+        <h2>{{ choosed }}</h2>
+        <div class="buttons">
+            <a mat-flat-button color="primary" [disabled]="btnDisable" routerLink="/savedata" [queryParams]="{u: selectedNo}">PILIH</a>
+            <button mat-flat-button color="accent" [disabled]="btnDisable" (click)="batal()">BATAL</button>
         </div>
     </mat-card>
-    
+    <br><br><br>
 </div>
-<mat-card class="action">
-    <h2>{{ choosed }}</h2>
-    <div class="buttons">
-        <a mat-flat-button color="primary" [disabled]="btnDisable" routerLink="/savedata" [queryParams]="{u: selectedNo}">PILIH</a>
-        <button mat-flat-button color="accent" [disabled]="btnDisable" (click)="batal()">BATAL</button>
-    </div>
-</mat-card>
+
+<div *ngIf="isChoosed">
+    <mat-card class="coosed">
+        <input type="file" accept="image/*" #file class="file" (change)="onChangeFile($event)" style="display: none;">
+        <h2>Anda telah melakukan pemilihan, silahkan Upload gambar yang telah terenkripsi untuk melihat pilihan anda</h2>
+        <button mat-flat-button color="accent" type="button" (click)="file.click()">UPLOAD FILE GAMBAR</button>
+
+        <div class="image_upload">
+            <img [src]="imageSrc" alt="">
+        </div>
+
+        <button mat-flat-button color="primary" (click)="decode()">Encode Gambar</button>
+    </mat-card>
+
+    <mat-card class="coosed" *ngIf="encoded != ''">
+        <h1>{{ encoded }}</h1>
+        <form [formGroup]="keyForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+                <mat-label>Masukkan Kunci Pengamanan</mat-label>
+                <input matInput formControlName="key" required>
+                <mat-error *ngIf="keyForm.controls['key'].errors">This field cannot be empty</mat-error>
+            </mat-form-field>
+            
+            <button mat-flat-button color="primary" type="submit">LIHAT DATA</button>
+        </form>
+    </mat-card>
+
+    <mat-card class="coosed" *ngIf="encoded != ''">
+        <h1>{{ generated }}</h1>
+    </mat-card>
+</div>
+
+<div class="logout">
+    <button mat-flat-button color="warn" (click)="logout()">LOGOUT</button>
+</div>

@@ -1,4 +1,42 @@
 
 <mat-card>
+    <div class="back">
+        <button mat-flat-button color="primary" (click)="backDashboard()">Kembali</button>
+        <br><br>
+    </div>
     <h1>{{ selected }}</h1>
+    <div class="add_key">
+        <form [formGroup]="keyForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+                <mat-label>Masukkan Kunci Pengamanan</mat-label>
+                <input matInput formControlName="key" required>
+                <mat-error *ngIf="keyForm.controls['key'].errors">This field cannot be empty</mat-error>
+            </mat-form-field>
+            <input type="file" accept="image/*" #file class="file" (change)="onChangeFile($event)">
+            <label>Silahkan upload file gambar untuk mengamankan data Anda</label>
+            <button mat-flat-button color="accent" type="button" (click)="file.click()">UPLOAD FILE GAMBAR</button>
+            <div class="image_upload">
+                <img [src]="imageSrc" alt="">
+            </div>
+            <button mat-flat-button color="primary" type="submit">SIMPAN</button>
+        </form>
+        
+    </div>
+</mat-card>
+
+<mat-card *ngIf="isSubmit">
+    <div class="submited">
+        <h2>HASIL ENKRIPSI</h2>
+        <h1 class="generated_text">
+            {{ generated }}
+        </h1>
+        <div class="image_upload">
+            <img [src]="imageSrc2" alt="">
+        </div>
+        <span>
+            Download dan simpan baik-baik gambar diatas karena suaramu bersifat rahasia. 
+            Dan gunakan file tersebut untuk melihat Pilihanmu.
+        </span>
+        <button mat-flat-button color="primary" (click)="downloadFile()">Download Gambar</button>
+    </div>
 </mat-card>
